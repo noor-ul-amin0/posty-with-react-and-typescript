@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { appId } from "./config";
 export const api = axios.create({
   headers: {
-    "app-id": "616d0a3c4c077651689d16bd",
+    "app-id": appId,
   },
   baseURL: "https://dummyapi.io/data/v1",
 });

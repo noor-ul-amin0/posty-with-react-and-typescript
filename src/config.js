@@ -10,3 +10,4 @@ export const OAuthConfig = {
     javascript_origins: ["http://localhost:3001"],
   },
 };
+export const appId = "616d0a3c4c077651689d16bd";

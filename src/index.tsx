@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>

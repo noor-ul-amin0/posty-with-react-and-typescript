@@ -7,15 +7,31 @@ import BlogPost from "../components/BlogPost";
 import usePosts from "../hooks/usePosts";
 import { Alert, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
-import { Post } from "../types/Types";
 import Spinner from "../components/Spinner";
 import { returnTotolPages } from "../utils";
 import Scroll from "../components/Scroll";
+import CustomButton from "../components/Button";
+import FullScreenDialog from "../components/CustomModal";
+import { Post } from "../types/Types";
+import { useMutation } from "react-query";
+import { api } from "../api";
+import { queryClient } from "..";
 const theme = createTheme();
 
 export default function BlogPosts() {
   const [page, setPage] = React.useState(1);
   const limit = 20;
+  const [open, setOpen] = React.useState(false);
+  const { isLoading: isMutationLoading, mutateAsync } = useMutation(
+    (post) => api.post("/post/create", post),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("posts");
+      },
+    }
+  );
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -30,16 +46,27 @@ export default function BlogPosts() {
       </Box>
     );
   }
-  if (isLoading) {
+  if (isLoading || isMutationLoading) {
     return <Spinner />;
   }
-
+  const onSubmit = async (post: any) => {
+    await mutateAsync(post);
+    handleClose();
+  };
   return (
     <Box>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="lg" sx={{ mt: 3 }}>
+        <FullScreenDialog
+          open={open}
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+        />
+        <Container maxWidth="xl" sx={{ mt: 3 }}>
           <main>
+            <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
+              <CustomButton title="Create Post" handleClick={handleClickOpen} />
+            </Grid>
             <Grid container spacing={2}>
               {data?.data?.map((post: Post) => (
                 <Grid key={post.id} item xs={6} md={3}>

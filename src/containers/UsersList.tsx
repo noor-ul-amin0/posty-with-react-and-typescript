@@ -18,7 +18,7 @@ export default function UsersList() {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
-  const { data, isFetching, error } = useUsers(page - 1, limit);
+  const { data, isLoading, error } = useUsers(page - 1, limit);
   if (error) {
     return (
       <Box>
@@ -28,14 +28,14 @@ export default function UsersList() {
       </Box>
     );
   }
-  if (isFetching) {
+  if (isLoading) {
     return <Spinner />;
   }
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="lg" sx={{ mt: 3 }}>
+        <Container maxWidth="xl" sx={{ mt: 3 }}>
           <main>
             <UserItem users={data?.data} />
           </main>

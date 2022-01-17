@@ -7,6 +7,12 @@ lastName: string;
 picture: string;
 title: string;
 };
+export type CreatePost = {
+  text: string;
+  image: string;  
+  tags: string;
+  owner: string;
+};
 export type Post = {
   id: string;
   text: string;

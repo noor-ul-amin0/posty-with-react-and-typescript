@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useQuery } from "react-query";
+import {  useQuery } from "react-query";
 import { api } from "../api";
 import { Post } from "../types/Types";
 
@@ -16,5 +16,4 @@ const usePosts = (page: number, limit: number) =>
       .get(`/post?limit=${limit}&page=${page}`)
       .then((res: AxiosResponse) => res.data),{ keepPreviousData : true }
   );
-
 export default usePosts;
